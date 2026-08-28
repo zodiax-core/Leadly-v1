@@ -3,12 +3,9 @@ import { ConvexReactClient } from "convex/react";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import type { ReactNode } from "react";
 
+// Fallback URL ensures SSR never throws even if env var is missing at build time
 function getConvexUrl(): string {
-  const url =
-    import.meta.env.VITE_CONVEX_URL ||
-    (typeof process !== "undefined" ? process.env.VITE_CONVEX_URL : undefined);
-  if (!url) throw new Error("Missing VITE_CONVEX_URL environment variable");
-  return url;
+  return import.meta.env.VITE_CONVEX_URL || "https://tremendous-elephant-255.convex.cloud";
 }
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {

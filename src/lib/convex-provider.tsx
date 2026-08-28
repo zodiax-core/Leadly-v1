@@ -2,7 +2,10 @@ import { ConvexReactClient } from "convex/react";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import type { ReactNode } from "react";
 
-const convexUrl = import.meta.env.VITE_CONVEX_URL;
+const convexUrl =
+  import.meta.env.VITE_CONVEX_URL ||
+  (typeof process !== "undefined" ? process.env.VITE_CONVEX_URL : undefined);
+
 if (!convexUrl) {
   throw new Error("Missing VITE_CONVEX_URL environment variable");
 }

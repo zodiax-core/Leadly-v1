@@ -5,10 +5,32 @@ import { api } from "../../convex/_generated/api";
 import { Id } from "../../convex/_generated/dataModel";
 import { DashboardShell } from "@/components/DashboardShell";
 import {
-  Sparkles, Send, Globe, Mail, Phone, MapPin, ChevronDown,
-  Download, FileSpreadsheet, FileText, FileCode, Bot, User,
-  Settings2, X, CheckCircle2, Loader2, Circle, Search, Target, Glasses,
-  Trash2, Plus, MessageSquare, PanelLeftOpen, PanelLeftClose,
+  Sparkles,
+  Send,
+  Globe,
+  Mail,
+  Phone,
+  MapPin,
+  ChevronDown,
+  Download,
+  FileSpreadsheet,
+  FileText,
+  FileCode,
+  Bot,
+  User,
+  Settings2,
+  X,
+  CheckCircle2,
+  Loader2,
+  Circle,
+  Search,
+  Target,
+  Glasses,
+  Trash2,
+  Plus,
+  MessageSquare,
+  PanelLeftOpen,
+  PanelLeftClose,
 } from "lucide-react";
 import * as XLSX from "xlsx";
 
@@ -18,7 +40,8 @@ export const Route = createFileRoute("/leads-by-ai")({
       { title: "Leads By AI — Leadly" },
       {
         name: "description",
-        content: "Use AI to discover and analyze leads for your business based on your brand description.",
+        content:
+          "Use AI to discover and analyze leads for your business based on your brand description.",
       },
     ],
   }),
@@ -26,19 +49,43 @@ export const Route = createFileRoute("/leads-by-ai")({
 });
 
 const INDUSTRIES = [
-  "Technology & SaaS", "Healthcare & Biotech", "Finance & Banking",
-  "E-commerce & Retail", "Manufacturing & Industrial", "Real Estate & Construction",
-  "Education & E-Learning", "Marketing & Advertising", "Consulting & Professional Services",
-  "Logistics & Supply Chain", "Energy & Utilities", "Hospitality & Travel",
-  "Media & Entertainment", "Telecommunications", "Legal & Insurance",
-  "Agriculture & Food", "Nonprofit & Government", "Automotive & Transportation",
+  "Technology & SaaS",
+  "Healthcare & Biotech",
+  "Finance & Banking",
+  "E-commerce & Retail",
+  "Manufacturing & Industrial",
+  "Real Estate & Construction",
+  "Education & E-Learning",
+  "Marketing & Advertising",
+  "Consulting & Professional Services",
+  "Logistics & Supply Chain",
+  "Energy & Utilities",
+  "Hospitality & Travel",
+  "Media & Entertainment",
+  "Telecommunications",
+  "Legal & Insurance",
+  "Agriculture & Food",
+  "Nonprofit & Government",
+  "Automotive & Transportation",
 ] as const;
 
 type Lead = {
-  company: string; website: string; email: string; phone: string;
-  location: string; source: string; snippet: string;
-  fitScore?: { relevance: number; reachability: number; signal_strength: number; data_confidence: number; total: number };
-  outreachMessage?: string; notes?: string;
+  company: string;
+  website: string;
+  email: string;
+  phone: string;
+  location: string;
+  source: string;
+  snippet: string;
+  fitScore?: {
+    relevance: number;
+    reachability: number;
+    signal_strength: number;
+    data_confidence: number;
+    total: number;
+  };
+  outreachMessage?: string;
+  notes?: string;
 };
 
 type Analysis = { brandSummary: string; targetProfile: string; approach: string };
@@ -74,10 +121,7 @@ function LeadsByAI() {
 
   const chats = useQuery(api.chats.list);
   const [activeChatId, setActiveChatId] = useState<Id<"chats"> | null>(null);
-  const activeChat = useQuery(
-    api.chats.get,
-    activeChatId ? { chatId: activeChatId } : "skip"
-  );
+  const activeChat = useQuery(api.chats.get, activeChatId ? { chatId: activeChatId } : "skip");
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -92,10 +136,7 @@ function LeadsByAI() {
 
   const messages: Message[] = activeChat?.messages ?? localMessages;
 
-  const runStatus = useQuery(
-    api.leadRuns.get,
-    activeRunId ? { runId: activeRunId } : "skip"
-  );
+  const runStatus = useQuery(api.leadRuns.get, activeRunId ? { runId: activeRunId } : "skip");
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -166,7 +207,9 @@ function LeadsByAI() {
         await addMessage({ chatId, message: assistantMsg });
       }
     } catch (err) {
-      const chatId = activeChatId || (await createChat({ title: text.length > 60 ? text.substring(0, 57) + "..." : text }));
+      const chatId =
+        activeChatId ||
+        (await createChat({ title: text.length > 60 ? text.substring(0, 57) + "..." : text }));
       if (!activeChatId) setActiveChatId(chatId);
       await addMessage({ chatId, message: userMsg });
       const errorMsg: Message = {
@@ -191,7 +234,10 @@ function LeadsByAI() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
   };
 
   const handleNewChat = () => {
@@ -213,40 +259,80 @@ function LeadsByAI() {
   const downloadXLSX = (leads: Lead[]) => {
     const wb = XLSX.utils.book_new();
     const data = leads.map((l, i) => ({
-      "#": i + 1, Company: l.company, Website: l.website, Email: l.email, Phone: l.phone,
-      Location: l.location, Source: l.source, Score: l.fitScore?.total ?? "",
+      "#": i + 1,
+      Company: l.company,
+      Website: l.website,
+      Email: l.email,
+      Phone: l.phone,
+      Location: l.location,
+      Source: l.source,
+      Score: l.fitScore?.total ?? "",
     }));
     const ws = XLSX.utils.json_to_sheet(data);
-    ws["!cols"] = [{ wch: 4 }, { wch: 30 }, { wch: 35 }, { wch: 35 }, { wch: 20 }, { wch: 25 }, { wch: 18 }, { wch: 8 }];
+    ws["!cols"] = [
+      { wch: 4 },
+      { wch: 30 },
+      { wch: 35 },
+      { wch: 35 },
+      { wch: 20 },
+      { wch: 25 },
+      { wch: 18 },
+      { wch: 8 },
+    ];
     XLSX.utils.book_append_sheet(wb, ws, "Leads");
     XLSX.writeFile(wb, "leads-by-ai.xlsx");
   };
 
   const downloadCSV = (leads: Lead[]) => {
     const headers = "Company,Website,Email,Phone,Location,Source,Score\n";
-    const rows = leads.map((l) => `"${l.company}","${l.website}","${l.email}","${l.phone}","${l.location}","${l.source}","${l.fitScore?.total ?? ""}"`).join("\n");
+    const rows = leads
+      .map(
+        (l) =>
+          `"${l.company}","${l.website}","${l.email}","${l.phone}","${l.location}","${l.source}","${l.fitScore?.total ?? ""}"`,
+      )
+      .join("\n");
     const blob = new Blob(["\ufeff" + headers + rows], { type: "text/csv;charset=utf-8" });
     downloadBlob(blob, "leads-by-ai.csv");
   };
 
   const downloadMarkdown = (leads: Lead[]) => {
-    const h = "# Leads By AI\n\n| # | Company | Website | Email | Phone | Location | Source | Score |\n|---|---|---|---|---|---|---|---|\n";
-    const rows = leads.map((l, i) => `| ${i + 1} | ${l.company} | ${l.website} | ${l.email} | ${l.phone} | ${l.location} | ${l.source} | ${l.fitScore?.total ?? "—"} |`).join("\n");
+    const h =
+      "# Leads By AI\n\n| # | Company | Website | Email | Phone | Location | Source | Score |\n|---|---|---|---|---|---|---|---|\n";
+    const rows = leads
+      .map(
+        (l, i) =>
+          `| ${i + 1} | ${l.company} | ${l.website} | ${l.email} | ${l.phone} | ${l.location} | ${l.source} | ${l.fitScore?.total ?? "—"} |`,
+      )
+      .join("\n");
     downloadBlob(new Blob([h + rows], { type: "text/markdown;charset=utf-8" }), "leads-by-ai.md");
   };
 
   const downloadText = (leads: Lead[]) => {
-    const lines = leads.map((l, i) => `${i + 1}. ${l.company}\n   Website: ${l.website}\n   Email: ${l.email}\n   Phone: ${l.phone}\n   Location: ${l.location}\n   Source: ${l.source}\n   Score: ${l.fitScore?.total ?? "—"}\n`);
-    downloadBlob(new Blob(["Leads By AI\n" + "=".repeat(40) + "\n\n" + lines.join("\n")], { type: "text/plain;charset=utf-8" }), "leads-by-ai.txt");
+    const lines = leads.map(
+      (l, i) =>
+        `${i + 1}. ${l.company}\n   Website: ${l.website}\n   Email: ${l.email}\n   Phone: ${l.phone}\n   Location: ${l.location}\n   Source: ${l.source}\n   Score: ${l.fitScore?.total ?? "—"}\n`,
+    );
+    downloadBlob(
+      new Blob(["Leads By AI\n" + "=".repeat(40) + "\n\n" + lines.join("\n")], {
+        type: "text/plain;charset=utf-8",
+      }),
+      "leads-by-ai.txt",
+    );
   };
 
   const downloadJSON = (leads: Lead[]) => {
-    downloadBlob(new Blob([JSON.stringify(leads, null, 2)], { type: "application/json;charset=utf-8" }), "leads-by-ai.json");
+    downloadBlob(
+      new Blob([JSON.stringify(leads, null, 2)], { type: "application/json;charset=utf-8" }),
+      "leads-by-ai.json",
+    );
   };
 
   const downloadBlob = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href = url; a.download = filename; a.click();
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
     URL.revokeObjectURL(url);
   };
 
@@ -255,7 +341,9 @@ function LeadsByAI() {
   return (
     <DashboardShell>
       <div className="h-[calc(100vh-4rem)] flex -m-6">
-        <div className={`${showChatList && chats ? "w-64" : "w-0"} border-r flex flex-col shrink-0 transition-all overflow-hidden`}>
+        <div
+          className={`${showChatList && chats ? "w-64" : "w-0"} border-r flex flex-col shrink-0 transition-all overflow-hidden`}
+        >
           <div className="p-3 border-b flex items-center justify-between shrink-0">
             <span className="text-xs font-medium text-muted-foreground">Chat History</span>
             <button
@@ -288,9 +376,14 @@ function LeadsByAI() {
                 <MessageSquare className="h-3.5 w-3.5 shrink-0" />
                 <span className="truncate flex-1">{chat.title}</span>
                 <button
-                  onClick={(e) => { e.stopPropagation(); handleDeleteChat(chat._id); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteChat(chat._id);
+                  }}
                   className={`p-0.5 rounded opacity-0 group-hover:opacity-100 transition cursor-pointer bg-transparent border-none ${
-                    activeChatId === chat._id ? "text-background/60 hover:text-background" : "text-muted-foreground hover:text-foreground"
+                    activeChatId === chat._id
+                      ? "text-background/60 hover:text-background"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Trash2 className="h-3 w-3" />
@@ -298,7 +391,9 @@ function LeadsByAI() {
               </div>
             ))}
             {chats && chats.length === 0 && (
-              <div className="px-3 py-6 text-center text-xs text-muted-foreground">No chats yet</div>
+              <div className="px-3 py-6 text-center text-xs text-muted-foreground">
+                No chats yet
+              </div>
             )}
           </div>
         </div>
@@ -325,7 +420,9 @@ function LeadsByAI() {
             <button
               onClick={() => setShowOptions(!showOptions)}
               className={`rounded-full p-2 transition cursor-pointer border-none flex items-center gap-1.5 text-xs ${
-                showOptions ? "bg-foreground text-background" : "bg-muted text-muted-foreground hover:text-foreground"
+                showOptions
+                  ? "bg-foreground text-background"
+                  : "bg-muted text-muted-foreground hover:text-foreground"
               }`}
             >
               <Settings2 className="h-3.5 w-3.5" />
@@ -343,7 +440,11 @@ function LeadsByAI() {
                     className="w-full rounded-lg border bg-background px-3 py-2 text-xs outline-none focus:ring-2 ring-ring appearance-none cursor-pointer"
                   >
                     <option value="">All industries</option>
-                    {INDUSTRIES.map((ind) => <option key={ind} value={ind}>{ind}</option>)}
+                    {INDUSTRIES.map((ind) => (
+                      <option key={ind} value={ind}>
+                        {ind}
+                      </option>
+                    ))}
                   </select>
                   <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground pointer-events-none" />
                 </div>
@@ -356,13 +457,22 @@ function LeadsByAI() {
                     className="w-full rounded-lg border bg-background pl-8 pr-3 py-2 text-xs outline-none focus:ring-2 ring-ring"
                   />
                   {location && (
-                    <button onClick={() => setLocation("")} className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer bg-transparent border-none p-0">
+                    <button
+                      onClick={() => setLocation("")}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer bg-transparent border-none p-0"
+                    >
                       <X className="h-3 w-3 text-muted-foreground" />
                     </button>
                   )}
                 </div>
-                {(industry || location) ? (
-                  <button onClick={() => { setIndustry(""); setLocation(""); }} className="text-xs text-muted-foreground hover:text-foreground cursor-pointer bg-transparent border-none shrink-0">
+                {industry || location ? (
+                  <button
+                    onClick={() => {
+                      setIndustry("");
+                      setLocation("");
+                    }}
+                    className="text-xs text-muted-foreground hover:text-foreground cursor-pointer bg-transparent border-none shrink-0"
+                  >
                     Clear
                   </button>
                 ) : null}
@@ -378,8 +488,8 @@ function LeadsByAI() {
                 </div>
                 <h2 className="text-lg font-medium">What leads are you looking for?</h2>
                 <p className="text-sm text-muted-foreground mt-1 max-w-md">
-                  Describe your brand, ideal customers, or target market. AI will search the web
-                  and find matching leads with contact info.
+                  Describe your brand, ideal customers, or target market. AI will search the web and
+                  find matching leads with contact info.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-6 max-w-lg">
                   {[
@@ -390,7 +500,10 @@ function LeadsByAI() {
                   ].map((suggestion) => (
                     <button
                       key={suggestion}
-                      onClick={() => { setInput(suggestion); inputRef.current?.focus(); }}
+                      onClick={() => {
+                        setInput(suggestion);
+                        inputRef.current?.focus();
+                      }}
                       className="text-xs rounded-full border px-3 py-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer bg-transparent"
                     >
                       {suggestion}
@@ -401,7 +514,10 @@ function LeadsByAI() {
             )}
 
             {messages.map((msg, i) => (
-              <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+              <div
+                key={i}
+                className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+              >
                 {msg.role === "assistant" && (
                   <div className="h-8 w-8 rounded-full bg-foreground shrink-0 mt-0.5 flex items-center justify-center">
                     <Bot className="h-4 w-4 text-background" />
@@ -409,9 +525,13 @@ function LeadsByAI() {
                 )}
                 <div className={`max-w-[640px] ${msg.role === "user" ? "order-first" : ""}`}>
                   {msg.role === "user" ? (
-                    <div className="rounded-2xl bg-foreground text-background px-4 py-2.5 text-sm">{msg.content}</div>
+                    <div className="rounded-2xl bg-foreground text-background px-4 py-2.5 text-sm">
+                      {msg.content}
+                    </div>
                   ) : msg.error ? (
-                    <div className="rounded-2xl bg-destructive/10 text-destructive px-4 py-3 text-sm">{msg.error}</div>
+                    <div className="rounded-2xl bg-destructive/10 text-destructive px-4 py-3 text-sm">
+                      {msg.error}
+                    </div>
                   ) : (
                     <div className="space-y-4">
                       {msg.analysis && (
@@ -421,15 +541,25 @@ function LeadsByAI() {
                           </div>
                           <div className="grid sm:grid-cols-3 gap-3">
                             <div className="rounded-xl bg-muted/50 p-3">
-                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Brand</div>
-                              <div className="text-sm leading-snug">{msg.analysis.brandSummary}</div>
+                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                                Brand
+                              </div>
+                              <div className="text-sm leading-snug">
+                                {msg.analysis.brandSummary}
+                              </div>
                             </div>
                             <div className="rounded-xl bg-muted/50 p-3">
-                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Target</div>
-                              <div className="text-sm leading-snug">{msg.analysis.targetProfile}</div>
+                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                                Target
+                              </div>
+                              <div className="text-sm leading-snug">
+                                {msg.analysis.targetProfile}
+                              </div>
                             </div>
                             <div className="rounded-xl bg-muted/50 p-3">
-                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Strategy</div>
+                              <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                                Strategy
+                              </div>
                               <div className="text-sm leading-snug">{msg.analysis.approach}</div>
                             </div>
                           </div>
@@ -438,20 +568,52 @@ function LeadsByAI() {
                       {msg.queries && msg.queries.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {msg.queries.map((q, qi) => (
-                            <span key={qi} className="text-[11px] rounded-full bg-muted px-2.5 py-1 text-muted-foreground">{q}</span>
+                            <span
+                              key={qi}
+                              className="text-[11px] rounded-full bg-muted px-2.5 py-1 text-muted-foreground"
+                            >
+                              {q}
+                            </span>
                           ))}
                         </div>
                       )}
                       {msg.leads && msg.leads.length > 0 && (
                         <div className="rounded-2xl border bg-card overflow-hidden">
                           <div className="flex items-center justify-between px-4 py-2.5 border-b bg-muted/20">
-                            <span className="text-xs font-medium">Found {msg.leads.length} leads</span>
+                            <span className="text-xs font-medium">
+                              Found {msg.leads.length} leads
+                            </span>
                             <div className="flex items-center gap-1">
-                              <button onClick={() => downloadXLSX(msg.leads!)} className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"><FileSpreadsheet className="h-3 w-3" /> XLSX</button>
-                              <button onClick={() => downloadCSV(msg.leads!)} className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"><Download className="h-3 w-3" /> CSV</button>
-                              <button onClick={() => downloadMarkdown(msg.leads!)} className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"><FileText className="h-3 w-3" /> MD</button>
-                              <button onClick={() => downloadText(msg.leads!)} className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"><FileText className="h-3 w-3" /> TXT</button>
-                              <button onClick={() => downloadJSON(msg.leads!)} className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"><FileCode className="h-3 w-3" /> JSON</button>
+                              <button
+                                onClick={() => downloadXLSX(msg.leads!)}
+                                className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"
+                              >
+                                <FileSpreadsheet className="h-3 w-3" /> XLSX
+                              </button>
+                              <button
+                                onClick={() => downloadCSV(msg.leads!)}
+                                className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"
+                              >
+                                <Download className="h-3 w-3" /> CSV
+                              </button>
+                              <button
+                                onClick={() => downloadMarkdown(msg.leads!)}
+                                className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"
+                              >
+                                <FileText className="h-3 w-3" /> MD
+                              </button>
+                              <button
+                                onClick={() => downloadText(msg.leads!)}
+                                className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"
+                              >
+                                <FileText className="h-3 w-3" /> TXT
+                              </button>
+                              <button
+                                onClick={() => downloadJSON(msg.leads!)}
+                                className="rounded-md bg-muted px-2 py-1 text-[10px] font-medium hover:bg-muted/80 transition flex items-center gap-1 cursor-pointer border-none"
+                              >
+                                <FileCode className="h-3 w-3" /> JSON
+                              </button>
                             </div>
                           </div>
                           <div className="divide-y">
@@ -460,19 +622,34 @@ function LeadsByAI() {
                                 <div className="flex items-start justify-between gap-4">
                                   <div className="min-w-0 flex-1">
                                     <div className="flex items-center gap-2">
-                                      <div className="text-sm font-medium truncate">{lead.company}</div>
+                                      <div className="text-sm font-medium truncate">
+                                        {lead.company}
+                                      </div>
                                       {lead.fitScore?.total ? (
-                                        <span className={`text-[10px] rounded-full px-1.5 py-0.5 font-medium ${
-                                          lead.fitScore.total >= 70 ? "bg-green-100 text-green-700" :
-                                          lead.fitScore.total >= 40 ? "bg-yellow-100 text-yellow-700" :
-                                          "bg-gray-100 text-gray-500"
-                                        }`}>{lead.fitScore.total}</span>
+                                        <span
+                                          className={`text-[10px] rounded-full px-1.5 py-0.5 font-medium ${
+                                            lead.fitScore.total >= 70
+                                              ? "bg-green-100 text-green-700"
+                                              : lead.fitScore.total >= 40
+                                                ? "bg-yellow-100 text-yellow-700"
+                                                : "bg-gray-100 text-gray-500"
+                                          }`}
+                                        >
+                                          {lead.fitScore.total}
+                                        </span>
                                       ) : null}
                                     </div>
                                     {lead.website && (
-                                      <a href={lead.website} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-0.5 truncate">
+                                      <a
+                                        href={lead.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 mt-0.5 truncate"
+                                      >
                                         <Globe className="h-3 w-3 shrink-0" />
-                                        {lead.website.replace(/https?:\/\//, "").replace(/\/.*/, "")}
+                                        {lead.website
+                                          .replace(/https?:\/\//, "")
+                                          .replace(/\/.*/, "")}
                                       </a>
                                     )}
                                   </div>
@@ -481,14 +658,30 @@ function LeadsByAI() {
                                   </span>
                                 </div>
                                 <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1.5">
-                                  {lead.email && <div className="flex items-center gap-1 text-xs text-muted-foreground"><Mail className="h-3 w-3 shrink-0" /> {lead.email}</div>}
-                                  {lead.phone && <div className="flex items-center gap-1 text-xs text-muted-foreground"><Phone className="h-3 w-3 shrink-0" /> {lead.phone}</div>}
-                                  {lead.location && <div className="flex items-center gap-1 text-xs text-muted-foreground"><MapPin className="h-3 w-3 shrink-0" /> {lead.location}</div>}
+                                  {lead.email && (
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                      <Mail className="h-3 w-3 shrink-0" /> {lead.email}
+                                    </div>
+                                  )}
+                                  {lead.phone && (
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                      <Phone className="h-3 w-3 shrink-0" /> {lead.phone}
+                                    </div>
+                                  )}
+                                  {lead.location && (
+                                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                      <MapPin className="h-3 w-3 shrink-0" /> {lead.location}
+                                    </div>
+                                  )}
                                 </div>
                                 {lead.outreachMessage && (
                                   <div className="mt-2 rounded-lg bg-muted/30 border p-2.5">
-                                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Outreach Draft</div>
-                                    <div className="text-xs leading-relaxed">{lead.outreachMessage}</div>
+                                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">
+                                      Outreach Draft
+                                    </div>
+                                    <div className="text-xs leading-relaxed">
+                                      {lead.outreachMessage}
+                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -496,7 +689,9 @@ function LeadsByAI() {
                           </div>
                           {msg.leads.length > 5 && (
                             <div className="px-4 py-2 border-t text-center">
-                              <span className="text-xs text-muted-foreground">+{msg.leads.length - 5} more — download full list above</span>
+                              <span className="text-xs text-muted-foreground">
+                                +{msg.leads.length - 5} more — download full list above
+                              </span>
                             </div>
                           )}
                         </div>
@@ -532,7 +727,13 @@ function LeadsByAI() {
                         <div
                           key={step.id}
                           className={`flex items-start gap-2.5 text-xs ${
-                            isDone ? "text-green-600" : isError ? "text-destructive" : isActive ? "text-foreground" : "text-muted-foreground/50"
+                            isDone
+                              ? "text-green-600"
+                              : isError
+                                ? "text-destructive"
+                                : isActive
+                                  ? "text-foreground"
+                                  : "text-muted-foreground/50"
                           }`}
                         >
                           {isDone ? (
@@ -540,12 +741,16 @@ function LeadsByAI() {
                           ) : isError ? (
                             <X className="h-3.5 w-3.5 mt-0.5 shrink-0" />
                           ) : (
-                            <Icon className={`h-3.5 w-3.5 mt-0.5 shrink-0 ${isActive ? "animate-pulse" : ""}`} />
+                            <Icon
+                              className={`h-3.5 w-3.5 mt-0.5 shrink-0 ${isActive ? "animate-pulse" : ""}`}
+                            />
                           )}
                           <div className="flex-1 min-w-0">
                             <div className="font-medium">{step.label}</div>
                             {step.detail && (
-                              <div className="text-muted-foreground truncate mt-0.5">{step.detail}</div>
+                              <div className="text-muted-foreground truncate mt-0.5">
+                                {step.detail}
+                              </div>
                             )}
                           </div>
                         </div>
@@ -587,7 +792,8 @@ function LeadsByAI() {
               </button>
             </div>
             <p className="text-[10px] text-muted-foreground text-center mt-2">
-              Searches Google Search + Maps, crawls websites for contact info. Results may vary — verify before reaching out.
+              Searches Google Search + Maps, crawls websites for contact info. Results may vary —
+              verify before reaching out.
             </p>
           </div>
         </div>

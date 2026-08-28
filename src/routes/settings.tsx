@@ -20,9 +20,7 @@ function Settings() {
     <DashboardShell>
       <div className="max-w-3xl">
         <h1 className="text-4xl">Settings</h1>
-        <p className="text-muted-foreground mt-1">
-          Manage your account and integrations.
-        </p>
+        <p className="text-muted-foreground mt-1">Manage your account and integrations.</p>
 
         <div className="mt-8 space-y-8">
           <div className="rounded-3xl border bg-card p-6">
@@ -67,9 +65,7 @@ function Settings() {
               <Moon className="h-4 w-4 text-muted-foreground" />
               Appearance
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Theme preferences coming soon.
-            </p>
+            <p className="text-sm text-muted-foreground mt-1">Theme preferences coming soon.</p>
           </div>
         </div>
       </div>

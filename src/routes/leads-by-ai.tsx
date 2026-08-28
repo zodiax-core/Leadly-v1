@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useAction, useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, useQuery, useConvex } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
 import { DashboardShell } from "@/components/DashboardShell";
 import {
   Sparkles, Send, Globe, Mail, Phone, MapPin, ChevronDown,
@@ -12,13 +13,15 @@ import {
 import * as XLSX from "xlsx";
 
 export const Route = createFileRoute("/leads-by-ai")({
-  head: () => [
-    { title: "Leads By AI — Leadly" },
-    {
-      name: "description",
-      content: "Use AI to discover and analyze leads for your business based on your brand description.",
-    },
-  ],
+  head: () => ({
+    meta: [
+      { title: "Leads By AI — Leadly" },
+      {
+        name: "description",
+        content: "Use AI to discover and analyze leads for your business based on your brand description.",
+      },
+    ],
+  }),
   component: LeadsByAI,
 });
 
@@ -49,7 +52,7 @@ type Message = {
   queries?: string[];
   leads?: Lead[];
   error?: string;
-  runId?: string;
+  runId?: Id<"leadGenerationRuns">;
   createdAt: number;
 };
 
@@ -61,6 +64,7 @@ const STEP_ICONS: Record<string, typeof Sparkles> = {
 };
 
 function LeadsByAI() {
+  const convex = useConvex();
   const discover = useAction(api.aiLeads.discover);
   const createRun = useMutation(api.leadRuns.create);
   const createChat = useMutation(api.chats.create);
@@ -69,15 +73,15 @@ function LeadsByAI() {
   const updateTitle = useMutation(api.chats.updateTitle);
 
   const chats = useQuery(api.chats.list);
-  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [activeChatId, setActiveChatId] = useState<Id<"chats"> | null>(null);
   const activeChat = useQuery(
     api.chats.get,
-    activeChatId ? { chatId: activeChatId as any } : "skip"
+    activeChatId ? { chatId: activeChatId } : "skip"
   );
 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [activeRunId, setActiveRunId] = useState<string | null>(null);
+  const [activeRunId, setActiveRunId] = useState<Id<"leadGenerationRuns"> | null>(null);
   const [industry, setIndustry] = useState("");
   const [location, setLocation] = useState("");
   const [showOptions, setShowOptions] = useState(false);
@@ -90,7 +94,7 @@ function LeadsByAI() {
 
   const runStatus = useQuery(
     api.leadRuns.get,
-    activeRunId ? { runId: activeRunId as any } : "skip"
+    activeRunId ? { runId: activeRunId } : "skip"
   );
 
   useEffect(() => {
@@ -140,7 +144,7 @@ function LeadsByAI() {
         prompt: text,
         category: industry || undefined,
         location: location.trim() || undefined,
-        runId: runId as any,
+        runId,
       });
 
       if (!result) {
@@ -178,11 +182,9 @@ function LeadsByAI() {
     }
   };
 
-  const queryRun = async (runId: string): Promise<any> => {
+  const queryRun = async (runId: Id<"leadGenerationRuns">): Promise<any> => {
     try {
-      const { fetchQuery } = await import("convex/browser");
-      const { api: generatedApi } = await import("../../convex/_generated/api");
-      return null;
+      return await convex.query(api.leadRuns.get, { runId });
     } catch {
       return null;
     }
@@ -200,7 +202,7 @@ function LeadsByAI() {
     inputRef.current?.focus();
   };
 
-  const handleDeleteChat = async (chatId: string) => {
+  const handleDeleteChat = async (chatId: Id<"chats">) => {
     await deleteChatMut({ chatId });
     if (activeChatId === chatId) {
       setActiveChatId(null);

@@ -10,26 +10,58 @@ const EMAIL_REGEX = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 const PHONE_REGEX = /(?:\+?\d{1,3}[-.\s]?)?\(?\d{2,4}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}/g;
 
 const IRRELEVANT_DOMAINS = [
-  "youtube.com", "youtu.be", "facebook.com", "instagram.com", "twitter.com",
-  "x.com", "linkedin.com", "tiktok.com", "snapchat.com", "pinterest.com",
-  "reddit.com", "wikipedia.org", "amazon.com", "ebay.com", "yelp.com",
-  "crunchbase.com", "zoominfo.com", "apollo.io", "hubspot.com", "salesforce.com",
-  "leadfuze.com", "leadsquared.com", "upwork.com", "fiverr.com",
+  "youtube.com",
+  "youtu.be",
+  "facebook.com",
+  "instagram.com",
+  "twitter.com",
+  "x.com",
+  "linkedin.com",
+  "tiktok.com",
+  "snapchat.com",
+  "pinterest.com",
+  "reddit.com",
+  "wikipedia.org",
+  "amazon.com",
+  "ebay.com",
+  "yelp.com",
+  "crunchbase.com",
+  "zoominfo.com",
+  "apollo.io",
+  "hubspot.com",
+  "salesforce.com",
+  "leadfuze.com",
+  "leadsquared.com",
+  "upwork.com",
+  "fiverr.com",
 ];
 
 function isAggregatorOrListing(title: string, snippet: string): boolean {
   const keywords = [
-    "lead generation company", "lead generation service", "b2b lead generation",
-    "buy leads", "purchase leads", "sales leads", "lead list", "email list",
-    "business directory", "company database", "crm software", "sales intelligence",
-    "prospecting tool", "sales engagement",
+    "lead generation company",
+    "lead generation service",
+    "b2b lead generation",
+    "buy leads",
+    "purchase leads",
+    "sales leads",
+    "lead list",
+    "email list",
+    "business directory",
+    "company database",
+    "crm software",
+    "sales intelligence",
+    "prospecting tool",
+    "sales engagement",
   ];
   const text = (title + " " + snippet).toLowerCase();
   return keywords.some((k) => text.includes(k));
 }
 
 function isIrrelevantDomain(url: string): boolean {
-  const hostname = url.replace(/https?:\/\//, "").replace(/\/.*/, "").toLowerCase();
+  const hostname = url
+    .replace(/https?:\/\//, "")
+    .replace(/\/.*/, "")
+    .toLowerCase();
   for (const domain of IRRELEVANT_DOMAINS) {
     if (hostname === domain || hostname.endsWith("." + domain)) return true;
   }
@@ -280,7 +312,9 @@ async function crawlWebsite(url: string): Promise<{ emails: string[]; phones: st
   }
 }
 
-async function findContactInfo(website: string | undefined): Promise<{ email?: string; phone?: string }> {
+async function findContactInfo(
+  website: string | undefined,
+): Promise<{ email?: string; phone?: string }> {
   if (!website) return {};
 
   const { emails, phones } = await crawlWebsite(website);
@@ -354,7 +388,11 @@ export const discover = action({
 
       for (let qi = 0; qi < searchQueries.length; qi++) {
         const q = searchQueries[qi];
-        await step("search_web", "active", `Query ${qi + 1}/${searchQueries.length}: "${q.substring(0, 60)}"`);
+        await step(
+          "search_web",
+          "active",
+          `Query ${qi + 1}/${searchQueries.length}: "${q.substring(0, 60)}"`,
+        );
 
         const [googleResults, mapsResults] = await Promise.all([
           searchGoogleSerper(q),
@@ -379,7 +417,11 @@ export const discover = action({
       const enrichedResults: any[] = [];
       for (let ri = 0; ri < topResults.length; ri++) {
         const r = topResults[ri];
-        await step("crawl", "active", `Scanning ${ri + 1}/${topResults.length}: ${r.company?.substring(0, 40)}`);
+        await step(
+          "crawl",
+          "active",
+          `Scanning ${ri + 1}/${topResults.length}: ${r.company?.substring(0, 40)}`,
+        );
         const contact = await findContactInfo(r.website);
         enrichedResults.push({
           company: r.company ?? "Unknown",
@@ -415,7 +457,9 @@ export const discover = action({
 ${userCriteria}
 
 SEARCH RESULTS TO ANALYZE (one lead per entry):
-${leadsToScore.map((l, i) => `
+${leadsToScore
+  .map(
+    (l, i) => `
 --- LEAD ${i + 1} ---
 Company: ${l.company}
 Website: ${l.website}
@@ -424,7 +468,9 @@ Phone found: ${l.phone || "not_found"}
 Location: ${l.location || "not_found"}
 Source: ${l.source}
 Snippet: ${l.snippet || "not_found"}
-`).join("\n")}
+`,
+  )
+  .join("\n")}
 
 For EACH lead above, output a REASONING block followed by the JSON scoring object. Separate each lead with "---NEXT_LEAD---".`;
 
@@ -443,16 +489,24 @@ For EACH lead above, output a REASONING block followed by the JSON scoring objec
                   company: parsed.business_name || orig.company,
                   website: parsed.website || orig.website,
                   email: parsed.contact?.email?.value || orig.email,
-                  emailConfidence: parsed.contact?.email?.confidence || (orig.email ? "verified" : "not_found"),
+                  emailConfidence:
+                    parsed.contact?.email?.confidence || (orig.email ? "verified" : "not_found"),
                   phone: parsed.contact?.phone?.value || orig.phone,
-                  phoneConfidence: parsed.contact?.phone?.confidence || (orig.phone ? "verified" : "not_found"),
+                  phoneConfidence:
+                    parsed.contact?.phone?.confidence || (orig.phone ? "verified" : "not_found"),
                   location: parsed.location || orig.location,
                   source: orig.source,
                   snippet: orig.snippet,
                   industry: parsed.industry || "",
                   keySignals: parsed.key_signals || [],
                   painPoints: parsed.inferred_pain_points || [],
-                  fitScore: parsed.fit_score || { relevance: 0, reachability: 0, signal_strength: 0, data_confidence: 0, total: 0 },
+                  fitScore: parsed.fit_score || {
+                    relevance: 0,
+                    reachability: 0,
+                    signal_strength: 0,
+                    data_confidence: 0,
+                    total: 0,
+                  },
                   outreachMessage: parsed.outreach_message || "",
                   notes: parsed.notes || "",
                 });

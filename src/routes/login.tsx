@@ -7,7 +7,10 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Login — Leadly" },
-      { name: "description", content: "Sign in to your Leadly account to manage funnels and leads." },
+      {
+        name: "description",
+        content: "Sign in to your Leadly account to manage funnels and leads.",
+      },
     ],
   }),
   component: Login,
@@ -115,7 +118,10 @@ function Login() {
                 New here?{" "}
                 <button
                   type="button"
-                  onClick={() => { setMode("signUp"); setError(null); }}
+                  onClick={() => {
+                    setMode("signUp");
+                    setError(null);
+                  }}
                   className="text-foreground underline cursor-pointer bg-transparent border-none p-0"
                 >
                   Create an account
@@ -126,7 +132,10 @@ function Login() {
                 Already have an account?{" "}
                 <button
                   type="button"
-                  onClick={() => { setMode("signIn"); setError(null); }}
+                  onClick={() => {
+                    setMode("signIn");
+                    setError(null);
+                  }}
                   className="text-foreground underline cursor-pointer bg-transparent border-none p-0"
                 >
                   Sign in

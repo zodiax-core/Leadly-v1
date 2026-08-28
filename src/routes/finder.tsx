@@ -18,10 +18,7 @@ import { Search, MapPin, Filter, ExternalLink, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/finder")({
   head: () => ({
-    meta: [
-      { title: "Lead Finder — Leadly" },
-      { name: "description", content: "Find new leads." },
-    ],
+    meta: [{ title: "Lead Finder — Leadly" }, { name: "description", content: "Find new leads." }],
   }),
   component: LeadFinder,
 });
@@ -74,9 +71,7 @@ function LeadFinder() {
     <DashboardShell>
       <div className="max-w-5xl">
         <h1 className="text-4xl">Lead Finder</h1>
-        <p className="text-muted-foreground mt-1">
-          Search for leads across multiple sources.
-        </p>
+        <p className="text-muted-foreground mt-1">Search for leads across multiple sources.</p>
 
         <div className="mt-8 rounded-3xl border bg-card p-6 space-y-5">
           <div className="grid sm:grid-cols-2 gap-4">
@@ -109,10 +104,7 @@ function LeadFinder() {
             </p>
             <div className="flex flex-wrap gap-4">
               {sourceOptions.map((source) => (
-                <label
-                  key={source.id}
-                  className="flex items-center gap-2 text-sm cursor-pointer"
-                >
+                <label key={source.id} className="flex items-center gap-2 text-sm cursor-pointer">
                   <Checkbox
                     checked={selectedSources.includes(source.id)}
                     onCheckedChange={() => toggleSource(source.id)}
@@ -137,17 +129,13 @@ function LeadFinder() {
           </Button>
 
           {error && (
-            <div className="rounded-xl bg-destructive/10 text-destructive text-sm p-3">
-              {error}
-            </div>
+            <div className="rounded-xl bg-destructive/10 text-destructive text-sm p-3">{error}</div>
           )}
         </div>
 
         <div className="mt-8 rounded-3xl border bg-card">
           <div className="p-6 pb-0">
-            <h2 className="text-lg font-medium">
-              Results {results ? `(${results.length})` : ""}
-            </h2>
+            <h2 className="text-lg font-medium">Results {results ? `(${results.length})` : ""}</h2>
             <p className="text-sm text-muted-foreground mt-1">
               {results === null
                 ? 'Enter your search criteria above and click "Find Leads" to get started.'
@@ -170,10 +158,7 @@ function LeadFinder() {
               <TableBody>
                 {results === null || results.length === 0 ? (
                   <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="text-center text-muted-foreground py-12"
-                    >
+                    <TableCell colSpan={5} className="text-center text-muted-foreground py-12">
                       <div className="flex flex-col items-center gap-2">
                         {loading ? (
                           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground/50" />

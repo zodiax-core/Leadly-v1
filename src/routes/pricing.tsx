@@ -6,7 +6,10 @@ export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
       { title: "Pricing — Leadly" },
-      { name: "description", content: "Simple, transparent pricing for teams capturing leads at any scale." },
+      {
+        name: "description",
+        content: "Simple, transparent pricing for teams capturing leads at any scale.",
+      },
       { property: "og:title", content: "Pricing — Leadly" },
       { property: "og:description", content: "Simple, transparent pricing." },
     ],
@@ -27,7 +30,13 @@ const tiers = [
     name: "Growth",
     price: "$49",
     sub: "per month",
-    features: ["Unlimited funnels", "10,000 leads / mo", "All integrations", "AI enrichment + scoring", "Slack & SMS"],
+    features: [
+      "Unlimited funnels",
+      "10,000 leads / mo",
+      "All integrations",
+      "AI enrichment + scoring",
+      "Slack & SMS",
+    ],
     cta: "Start 14-day trial",
     featured: true,
   },
@@ -35,7 +44,13 @@ const tiers = [
     name: "Scale",
     price: "Custom",
     sub: "Talk to sales",
-    features: ["Unlimited leads", "SSO + SAML", "Dedicated success", "SLA + audit logs", "Custom AI models"],
+    features: [
+      "Unlimited leads",
+      "SSO + SAML",
+      "Dedicated success",
+      "SLA + audit logs",
+      "Custom AI models",
+    ],
     cta: "Contact sales",
     featured: false,
   },
@@ -97,9 +112,18 @@ function Pricing() {
           <h2 className="text-4xl text-center">Questions</h2>
           <div className="mt-8 divide-y border-y">
             {[
-              ["Is there really a free plan?", "Yes. 100 leads a month, forever. No card required."],
-              ["Can I cancel anytime?", "Cancel in one click. You keep access until the end of the period."],
-              ["Do you offer discounts for startups?", "50% off Growth for our first year if you're under $1M ARR."],
+              [
+                "Is there really a free plan?",
+                "Yes. 100 leads a month, forever. No card required.",
+              ],
+              [
+                "Can I cancel anytime?",
+                "Cancel in one click. You keep access until the end of the period.",
+              ],
+              [
+                "Do you offer discounts for startups?",
+                "50% off Growth for our first year if you're under $1M ARR.",
+              ],
               ["Where is my data stored?", "EU and US regions. SOC 2 Type II. GDPR compliant."],
             ].map(([q, a]) => (
               <details key={q} className="py-5 group">

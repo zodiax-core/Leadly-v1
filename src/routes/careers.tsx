@@ -6,7 +6,11 @@ export const Route = createFileRoute("/careers")({
   head: () => ({
     meta: [
       { title: "Careers — Leadly" },
-      { name: "description", content: "Help us build the future of lead generation. We're hiring across engineering, design, and growth." },
+      {
+        name: "description",
+        content:
+          "Help us build the future of lead generation. We're hiring across engineering, design, and growth.",
+      },
     ],
   }),
   component: Careers,
@@ -30,8 +34,8 @@ function Careers() {
           Build the future of <span className="italic">pipeline</span>
         </h1>
         <p className="mt-6 text-lg text-muted-foreground">
-          Small team. Big ambitions. We're rewriting how every business turns
-          attention into revenue.
+          Small team. Big ambitions. We're rewriting how every business turns attention into
+          revenue.
         </p>
       </section>
 

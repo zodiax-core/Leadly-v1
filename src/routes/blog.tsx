@@ -6,19 +6,58 @@ export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
       { title: "Blog — Leadly" },
-      { name: "description", content: "Playbooks, product updates, and growth experiments from the Leadly team." },
+      {
+        name: "description",
+        content: "Playbooks, product updates, and growth experiments from the Leadly team.",
+      },
     ],
   }),
   component: Blog,
 });
 
 const posts = [
-  { tag: "Playbook", title: "The 7-question demo qualifier that doubled our SQLs", date: "Jun 24, 2026", read: "6 min", grad: "from-rose-200 to-orange-200" },
-  { tag: "Product", title: "Introducing AI Routing — leads find the right rep, automatically", date: "Jun 18, 2026", read: "4 min", grad: "from-sky-200 to-indigo-200" },
-  { tag: "Growth", title: "Why your landing page form is leaking 60% of leads", date: "Jun 10, 2026", read: "8 min", grad: "from-emerald-200 to-teal-200" },
-  { tag: "Engineering", title: "How we built real-time enrichment in under 200ms", date: "May 30, 2026", read: "11 min", grad: "from-amber-200 to-pink-200" },
-  { tag: "Playbook", title: "The cold email teardown: 12 wins, 4 disasters", date: "May 22, 2026", read: "9 min", grad: "from-violet-200 to-fuchsia-200" },
-  { tag: "Story", title: "From 0 to 10k leads/mo: how Bloom Realty did it", date: "May 14, 2026", read: "7 min", grad: "from-lime-200 to-emerald-200" },
+  {
+    tag: "Playbook",
+    title: "The 7-question demo qualifier that doubled our SQLs",
+    date: "Jun 24, 2026",
+    read: "6 min",
+    grad: "from-rose-200 to-orange-200",
+  },
+  {
+    tag: "Product",
+    title: "Introducing AI Routing — leads find the right rep, automatically",
+    date: "Jun 18, 2026",
+    read: "4 min",
+    grad: "from-sky-200 to-indigo-200",
+  },
+  {
+    tag: "Growth",
+    title: "Why your landing page form is leaking 60% of leads",
+    date: "Jun 10, 2026",
+    read: "8 min",
+    grad: "from-emerald-200 to-teal-200",
+  },
+  {
+    tag: "Engineering",
+    title: "How we built real-time enrichment in under 200ms",
+    date: "May 30, 2026",
+    read: "11 min",
+    grad: "from-amber-200 to-pink-200",
+  },
+  {
+    tag: "Playbook",
+    title: "The cold email teardown: 12 wins, 4 disasters",
+    date: "May 22, 2026",
+    read: "9 min",
+    grad: "from-violet-200 to-fuchsia-200",
+  },
+  {
+    tag: "Story",
+    title: "From 0 to 10k leads/mo: how Bloom Realty did it",
+    date: "May 14, 2026",
+    read: "7 min",
+    grad: "from-lime-200 to-emerald-200",
+  },
 ];
 
 function Blog() {
@@ -47,7 +86,10 @@ function Blog() {
 
         <div className="mt-12 grid md:grid-cols-3 gap-6 pb-32">
           {rest.map((p) => (
-            <article key={p.title} className="rounded-3xl overflow-hidden border bg-card cursor-pointer hover:shadow-lg transition">
+            <article
+              key={p.title}
+              className="rounded-3xl overflow-hidden border bg-card cursor-pointer hover:shadow-lg transition"
+            >
               <div className={`h-44 bg-gradient-to-br ${p.grad}`} />
               <div className="p-6">
                 <div className="text-xs uppercase tracking-widest text-muted-foreground">

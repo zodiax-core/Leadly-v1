@@ -1,6 +1,15 @@
 import { Link, useRouter, useLocation } from "@tanstack/react-router";
 import { useAuthActions, useConvexAuth } from "@convex-dev/auth/react";
-import { LayoutDashboard, Search, Target, Users, Settings, LogOut, Loader2, Sparkles } from "lucide-react";
+import {
+  LayoutDashboard,
+  Search,
+  Target,
+  Users,
+  Settings,
+  LogOut,
+  Loader2,
+  Sparkles,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 const navItems = [
@@ -89,9 +98,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             Sign out
           </button>
         </header>
-        <main className="flex-1 overflow-auto p-6">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto p-6">{children}</main>
       </div>
     </div>
   );

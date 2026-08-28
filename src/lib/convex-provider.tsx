@@ -10,7 +10,5 @@ if (!convexUrl) {
 const convexClient = new ConvexReactClient(convexUrl);
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
-  return (
-    <ConvexAuthProvider client={convexClient}>{children}</ConvexAuthProvider>
-  );
+  return <ConvexAuthProvider client={convexClient}>{children}</ConvexAuthProvider>;
 }

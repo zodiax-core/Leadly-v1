@@ -29,9 +29,7 @@ function DashboardHome() {
   return (
     <div className="max-w-5xl">
       <h1 className="text-4xl">Dashboard</h1>
-      <p className="text-muted-foreground mt-1">
-        Overview of your lead generation activity.
-      </p>
+      <p className="text-muted-foreground mt-1">Overview of your lead generation activity.</p>
 
       <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="rounded-3xl border bg-card p-6">
@@ -59,21 +57,19 @@ function DashboardHome() {
               <Target className="h-4 w-4 text-muted-foreground" />
               Campaigns
             </h2>
-            <Link
-              to="/campaigns"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
+            <Link to="/campaigns" className="text-sm text-muted-foreground hover:text-foreground">
               View all
             </Link>
           </div>
           {campaigns.length === 0 ? (
-            <div className="text-sm text-muted-foreground py-6 text-center">
-              No campaigns yet.
-            </div>
+            <div className="text-sm text-muted-foreground py-6 text-center">No campaigns yet.</div>
           ) : (
             <div className="space-y-2">
               {campaigns.slice(0, 3).map((c) => (
-                <div key={c._id} className="flex items-center justify-between py-2 border-b last:border-0">
+                <div
+                  key={c._id}
+                  className="flex items-center justify-between py-2 border-b last:border-0"
+                >
                   <span className="text-sm">{c.name}</span>
                   <span className="text-xs capitalize text-muted-foreground">{c.status}</span>
                 </div>
@@ -88,10 +84,7 @@ function DashboardHome() {
               <Users className="h-4 w-4 text-muted-foreground" />
               Recent Leads
             </h2>
-            <Link
-              to="/leads"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
+            <Link to="/leads" className="text-sm text-muted-foreground hover:text-foreground">
               View all
             </Link>
           </div>
@@ -105,7 +98,10 @@ function DashboardHome() {
           ) : (
             <div className="space-y-2">
               {leads.slice(0, 5).map((l) => (
-                <div key={l._id} className="flex items-center justify-between py-2 border-b last:border-0">
+                <div
+                  key={l._id}
+                  className="flex items-center justify-between py-2 border-b last:border-0"
+                >
                   <div>
                     <div className="text-sm font-medium">{l.company}</div>
                     {l.email && <div className="text-xs text-muted-foreground">{l.email}</div>}

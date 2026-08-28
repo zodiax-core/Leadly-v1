@@ -6,7 +6,10 @@ export const Route = createFileRoute("/docs")({
   head: () => ({
     meta: [
       { title: "Docs — Leadly" },
-      { name: "description", content: "Guides, API reference, and recipes to ship lead funnels faster." },
+      {
+        name: "description",
+        content: "Guides, API reference, and recipes to ship lead funnels faster.",
+      },
     ],
   }),
   component: Docs,
@@ -15,7 +18,12 @@ export const Route = createFileRoute("/docs")({
 const sections = [
   {
     heading: "Getting started",
-    items: ["Quickstart in 5 minutes", "Install the JS snippet", "Create your first funnel", "Routing leads to your CRM"],
+    items: [
+      "Quickstart in 5 minutes",
+      "Install the JS snippet",
+      "Create your first funnel",
+      "Routing leads to your CRM",
+    ],
   },
   {
     heading: "Funnels",
@@ -64,8 +72,8 @@ function Docs() {
         <main className="prose-styles max-w-none pb-32">
           <h1 className="text-5xl md:text-6xl">Welcome to Leadly</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-            Everything you need to build, launch, and scale lead funnels. Start with the
-            quickstart, then dive into integrations and AI scoring.
+            Everything you need to build, launch, and scale lead funnels. Start with the quickstart,
+            then dive into integrations and AI scoring.
           </p>
 
           <div className="mt-10 grid sm:grid-cols-2 gap-4">
@@ -75,7 +83,10 @@ function Docs() {
               ["CRM Sync", "Two‑way sync with HubSpot, Salesforce, more."],
               ["AI Scoring", "Use GPT‑5 to grade lead fit automatically."],
             ].map(([t, d]) => (
-              <div key={t} className="rounded-2xl border p-6 bg-card hover:shadow-md transition cursor-pointer">
+              <div
+                key={t}
+                className="rounded-2xl border p-6 bg-card hover:shadow-md transition cursor-pointer"
+              >
                 <div className="font-serif text-2xl">{t}</div>
                 <p className="text-sm text-muted-foreground mt-1">{d}</p>
               </div>
@@ -83,14 +94,16 @@ function Docs() {
           </div>
 
           <h2 className="text-3xl mt-16">Install the snippet</h2>
-          <p className="text-muted-foreground mt-2">Paste this before <code className="bg-secondary px-1 rounded">&lt;/body&gt;</code>:</p>
+          <p className="text-muted-foreground mt-2">
+            Paste this before <code className="bg-secondary px-1 rounded">&lt;/body&gt;</code>:
+          </p>
           <pre className="mt-4 bg-foreground text-background rounded-2xl p-6 text-sm overflow-x-auto">
-{`<script src="https://cdn.leadly.app/v1.js" data-key="pk_live_..."></script>`}
+            {`<script src="https://cdn.leadly.app/v1.js" data-key="pk_live_..."></script>`}
           </pre>
 
           <h2 className="text-3xl mt-16">Create a funnel via API</h2>
           <pre className="mt-4 bg-foreground text-background rounded-2xl p-6 text-sm overflow-x-auto">
-{`POST /v1/funnels
+            {`POST /v1/funnels
 Authorization: Bearer sk_live_...
 Content-Type: application/json
 

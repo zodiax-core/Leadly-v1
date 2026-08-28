@@ -86,16 +86,18 @@ export default defineSchema({
   chats: defineTable({
     userId: v.id("users"),
     title: v.string(),
-    messages: v.array(v.object({
-      role: v.union(v.literal("user"), v.literal("assistant")),
-      content: v.optional(v.string()),
-      analysis: v.optional(v.any()),
-      queries: v.optional(v.array(v.string())),
-      leads: v.optional(v.any()),
-      error: v.optional(v.string()),
-      runId: v.optional(v.id("leadGenerationRuns")),
-      createdAt: v.number(),
-    })),
+    messages: v.array(
+      v.object({
+        role: v.union(v.literal("user"), v.literal("assistant")),
+        content: v.optional(v.string()),
+        analysis: v.optional(v.any()),
+        queries: v.optional(v.array(v.string())),
+        leads: v.optional(v.any()),
+        error: v.optional(v.string()),
+        runId: v.optional(v.id("leadGenerationRuns")),
+        createdAt: v.number(),
+      }),
+    ),
     createdAt: v.number(),
     updatedAt: v.number(),
   })
@@ -108,12 +110,14 @@ export default defineSchema({
     prompt: v.string(),
     category: v.optional(v.string()),
     targetLocation: v.optional(v.string()),
-    steps: v.array(v.object({
-      id: v.string(),
-      label: v.string(),
-      status: v.string(),
-      detail: v.optional(v.string()),
-    })),
+    steps: v.array(
+      v.object({
+        id: v.string(),
+        label: v.string(),
+        status: v.string(),
+        detail: v.optional(v.string()),
+      }),
+    ),
     analysis: v.optional(v.any()),
     queries: v.optional(v.array(v.string())),
     leads: v.optional(v.any()),

@@ -22,8 +22,18 @@ export const create = mutation({
       steps: [
         { id: "analyze", label: "Analyzing your query", status: "pending", detail: undefined },
         { id: "search_web", label: "Searching Google", status: "pending", detail: undefined },
-        { id: "crawl", label: "Crawling websites for contacts", status: "pending", detail: undefined },
-        { id: "filter", label: "Filtering and validating results", status: "pending", detail: undefined },
+        {
+          id: "crawl",
+          label: "Crawling websites for contacts",
+          status: "pending",
+          detail: undefined,
+        },
+        {
+          id: "filter",
+          label: "Filtering and validating results",
+          status: "pending",
+          detail: undefined,
+        },
       ],
       createdAt: now,
       updatedAt: now,
@@ -42,7 +52,7 @@ export const updateStep = mutation({
     const run = await ctx.db.get(args.runId);
     if (!run) throw new Error("Run not found");
     const steps = run.steps.map((s) =>
-      s.id === args.stepId ? { ...s, status: args.status, detail: args.detail ?? s.detail } : s
+      s.id === args.stepId ? { ...s, status: args.status, detail: args.detail ?? s.detail } : s,
     );
     await ctx.db.patch(args.runId, { steps, updatedAt: Date.now() });
   },

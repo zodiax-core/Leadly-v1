@@ -37,10 +37,7 @@ function Campaigns() {
               Create and manage your lead generation campaigns.
             </p>
           </div>
-          <Button
-            className="rounded-full"
-            onClick={() => navigate({ to: "/finder" })}
-          >
+          <Button className="rounded-full" onClick={() => navigate({ to: "/finder" })}>
             <Plus className="h-4 w-4" />
             New Campaign
           </Button>
@@ -73,7 +70,9 @@ function Campaigns() {
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-lg">{campaign.name}</CardTitle>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${statusStyles[campaign.status]}`}>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full ${statusStyles[campaign.status]}`}
+                    >
                       {campaign.status}
                     </span>
                   </div>

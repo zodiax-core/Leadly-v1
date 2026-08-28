@@ -8,7 +8,11 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Leadly — Turn words into leads" },
-      { name: "description", content: "Leadly captures, qualifies, and routes leads from any page on your site. No code, no setup." },
+      {
+        name: "description",
+        content:
+          "Leadly captures, qualifies, and routes leads from any page on your site. No code, no setup.",
+      },
       { property: "og:title", content: "Leadly — Turn words into leads" },
       { property: "og:description", content: "Capture, qualify, and route leads on autopilot." },
     ],
@@ -37,8 +41,8 @@ function Home() {
             <span className="italic">Lead</span>ly
           </h1>
           <p className="mt-6 text-lg md:text-xl text-white/95 text-balance max-w-xl mx-auto">
-            Turn your words into capture forms, quizzes, and lead funnels —
-            built in minutes. Add CRMs and 40+ integrations in an instant.
+            Turn your words into capture forms, quizzes, and lead funnels — built in minutes. Add
+            CRMs and 40+ integrations in an instant.
           </p>
 
           <form className="mt-10 mx-auto max-w-xl glass-pill rounded-3xl p-3 flex flex-col gap-3 text-left">
@@ -70,16 +74,34 @@ function Home() {
 
       {/* CONTACT ICONS */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">
-        <a href="mailto:hello@leadly.com" className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition">
+        <a
+          href="mailto:hello@leadly.com"
+          className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition"
+        >
           <Mail className="h-4 w-4" />
         </a>
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition">
+        <a
+          href="https://github.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition"
+        >
           <Github className="h-4 w-4" />
         </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition">
+        <a
+          href="https://twitter.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition"
+        >
           <Twitter className="h-4 w-4" />
         </a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition">
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/40 transition"
+        >
           <Linkedin className="h-4 w-4" />
         </a>
       </div>

@@ -1,17 +1,17 @@
+import { useState } from "react";
 import { ConvexReactClient } from "convex/react";
 import { ConvexAuthProvider } from "@convex-dev/auth/react";
 import type { ReactNode } from "react";
 
-const convexUrl =
-  import.meta.env.VITE_CONVEX_URL ||
-  (typeof process !== "undefined" ? process.env.VITE_CONVEX_URL : undefined);
-
-if (!convexUrl) {
-  throw new Error("Missing VITE_CONVEX_URL environment variable");
+function getConvexUrl(): string {
+  const url =
+    import.meta.env.VITE_CONVEX_URL ||
+    (typeof process !== "undefined" ? process.env.VITE_CONVEX_URL : undefined);
+  if (!url) throw new Error("Missing VITE_CONVEX_URL environment variable");
+  return url;
 }
 
-const convexClient = new ConvexReactClient(convexUrl);
-
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
-  return <ConvexAuthProvider client={convexClient}>{children}</ConvexAuthProvider>;
+  const [client] = useState(() => new ConvexReactClient(getConvexUrl()));
+  return <ConvexAuthProvider client={client}>{children}</ConvexAuthProvider>;
 }
